@@ -1,194 +1,271 @@
-# MCP Tools - Complete Setup Package
+# MCP Project Manager
 
-This repository contains everything needed to install and configure Model Context Protocol (MCP) servers across multiple IDEs and development tools.
+**Project-specific MCP (Model Context Protocol) server management for multiple IDEs**
 
-## 📁 Directory Structure
+Stop installing MCP servers globally! This tool lets you configure MCP servers on a per-project basis, giving you better control, team collaboration, and cleaner development environments.
 
-```
-MCP Tools/
-├── configs/                    # Configuration files for each IDE/CLI
-│   ├── cursor-config.json      # Cursor IDE configuration
-│   ├── windsurf-config.json    # Windsurf editor configuration
-│   ├── claude-desktop-config.json # Claude Desktop configuration
-│   ├── claude-code-config.txt  # Claude Code CLI commands
-│   ├── warp-config.json        # Warp terminal configuration
-│   └── vscode-config.json      # VS Code configuration
-├── scripts/                    # Automation scripts
-│   ├── install-mcp-servers.sh  # Installs all MCP servers globally
-│   └── setup-mcp-clients.md    # LLM-executable setup instructions
-├── .env                        # Environment variables template (created during setup)
-└── README.md                   # This file
-```
+## 🚀 Super Quick Start (30 seconds!)
 
-## 🚀 Quick Start
-
-### For LLMs/AI Agents
-Direct the LLM to read and execute: `~/Documents/MCP Tools/scripts/setup-mcp-clients.md`
-
-This file contains complete, step-by-step instructions that an LLM can follow to:
-1. Detect installed applications
-2. Install all MCP servers
-3. Configure each application
-4. Verify the setup
-
-### For Manual Installation
 ```bash
-# Make script executable
-chmod +x ~/Documents/"MCP Tools"/scripts/install-mcp-servers.sh
+# Install the MCP Project Manager
+chmod +x ~/Documents/mcp-tools/install-project-manager.sh
+~/Documents/mcp-tools/install-project-manager.sh
 
-# Run installation
-~/Documents/"MCP Tools"/scripts/install-mcp-servers.sh
+# Go to your project and run the setup wizard
+cd your-project
+mcp-setup  # 🧙‍♂️ Interactive wizard - just answer 2 questions!
 ```
 
-## 📦 Included MCP Servers
+**The wizard will:**
+- ✅ Ask what type of project you're building
+- ✅ Auto-detect your installed IDEs
+- ✅ Set up everything automatically
+- ✅ Show you exactly what to do next
 
-This package includes configuration for 8 MCP servers:
+## 🔧 Advanced Options
 
-| Server | Purpose | Package Name | Version |
-|--------|---------|--------------|---------|
-| **Playwright** | Browser automation | `@playwright/mcp` | 0.0.36 |
-| **Filesystem** | File system operations | `@modelcontextprotocol/server-filesystem` | 2025.8.21 |
-| **GitHub** | GitHub integration | `@modelcontextprotocol/server-github` | 2025.4.8 |
-| **Sequential Thinking** | Reasoning capabilities | `@modelcontextprotocol/server-sequential-thinking` | 2025.7.1 |
-| **DuckDuckGo** | Web search | `duckduckgo-mcp-server` | 0.1.2 |
-| **n8n** | Workflow automation | `n8n-mcp` | 2.10.6 |
-| **Ref Tools** | Reference tools | `ref-tools-mcp` | 3.0.0 |
-| **Webflow** | Webflow integration | `webflow-mcp-server` | 0.7.0 |
+```bash
+# Manual setup with full control
+mcp-init
 
-## 🛠️ Supported Applications
+# Quick setup with specific bundle
+mcp-init --bundle web-dev --ides cursor,windsurf
 
-Configuration files are provided for:
+# Add servers to existing project
+mcp-add github playwright
+```
+
+## ✨ Why Project-Specific MCP?
+
+### Problems with Global Setup:
+- ❌ All projects get all servers (overkill)
+- ❌ No team collaboration on MCP configs
+- ❌ Global API keys create security risks
+- ❌ Hard to manage different project needs
+
+### Benefits of Project-Specific Setup:
+- ✅ **Only install what you need** - Choose servers per project
+- ✅ **Team collaboration** - Share configs through version control
+- ✅ **Environment-specific keys** - Different API keys per project/environment
+- ✅ **Multi-IDE support** - Works with Cursor, Windsurf, Claude Code, Warp
+- ✅ **Clean development** - No global server pollution
+
+## 📦 Available MCP Servers
+
+### Core Servers (Essential)
+- **filesystem** - File operations and management
+- **sequential-thinking** - Advanced reasoning capabilities
+
+### Integration Servers  
+- **github** - GitHub repositories and issues (requires `GITHUB_TOKEN`)
+- **duckduckgo** - Web search capabilities
+- **ref-tools** - Reference and documentation tools
+
+### Specialized Servers
+- **playwright** - Browser automation and testing
+- **n8n** - Workflow automation (requires `N8N_API_KEY`, `N8N_BASE_URL`)
+- **webflow** - Webflow CMS management (requires `WEBFLOW_API_TOKEN`)
+
+## 🎯 Predefined Bundles
+
+- **essential** - Core servers only (filesystem, sequential-thinking)
+- **web-dev** - Web development (+ github, duckduckgo, playwright)
+- **automation** - Workflow tools (+ n8n, webflow)
+- **research** - Research tools (+ duckduckgo, ref-tools, github)
+- **full** - All available servers
+
+## 🛠️ Supported IDEs
 
 - **Cursor** - AI-powered code editor
-- **Windsurf** - Next-generation IDE
-- **VS Code** - Via Continue extension
-- **Claude Desktop** - Anthropic's desktop application
+- **Windsurf** - Next-generation IDE  
 - **Claude Code CLI** - Command-line interface
+- **Claude Desktop** - Anthropic's desktop app
 - **Warp** - AI-powered terminal
 
-## 📋 Prerequisites
+## 📋 Commands
 
-- **Node.js** 18 or newer
-- **npm** package manager
-- **macOS** (paths are configured for macOS)
+### Initialize Project
+```bash
+# Interactive setup
+mcp-init
 
-## 🔑 API Keys Required
+# Quick setup with bundle
+mcp-init --bundle web-dev --ides cursor,windsurf
 
-Some MCP servers require API keys to function:
+# Non-interactive
+mcp-init --bundle essential --no-interactive
+```
 
-1. **GitHub MCP Server**
-   - Get token from: https://github.com/settings/tokens
-   - Set: `GITHUB_TOKEN`
+### Manage Servers
+```bash
+# Add servers to current project
+mcp-add github playwright
 
-2. **n8n MCP Server**
-   - Set: `N8N_API_KEY` and `N8N_BASE_URL`
+# Remove servers
+mcp-remove webflow n8n
 
-3. **Webflow MCP Server**
-   - Get token from: https://webflow.com/dashboard/account/apps
-   - Set: `WEBFLOW_API_TOKEN`
+# List project servers
+mcp-list
 
-## 📝 File Descriptions
+# List all available servers
+mcp-list --available
 
-### Configuration Files (`/configs`)
+# Show server bundles
+mcp-list --bundles
+```
 
-Each JSON configuration file contains the complete MCP server setup for its respective application. These files:
-- Define how to launch each MCP server
-- Include environment variable placeholders for API keys
-- Use `npx` commands for portability
+### Sync & Migrate
+```bash
+# Sync IDE configurations
+mcp-sync
 
-### Installation Script (`/scripts/install-mcp-servers.sh`)
+# Sync specific IDEs
+mcp-sync --ides cursor,windsurf
 
-A bash script that:
-- Checks for Node.js/npm prerequisites
-- Installs all 8 MCP servers globally
-- Installs Playwright browser binaries
-- Provides installation summary
+# Migrate from global setup
+mcp-migrate --from-global
+```
 
-### LLM Setup Instructions (`/scripts/setup-mcp-clients.md`)
+## 📁 Project Structure
 
-Comprehensive markdown document designed for LLM execution containing:
-- Detection commands for each supported application
-- Installation procedures (using the script or manual commands)
-- Configuration steps for each detected application
-- Verification commands
-- Troubleshooting guide
+After initialization, your project will have:
 
-## 🔧 Manual Configuration
+```
+your-project/
+├── .mcp/
+│   ├── config.json          # Project MCP configuration
+│   ├── .env                 # Environment variables (template)
+│   ├── cursor.json          # Cursor IDE configuration
+│   ├── windsurf.json        # Windsurf configuration
+│   ├── claude-desktop.json  # Claude Desktop configuration
+│   ├── warp.json           # Warp configuration
+│   └── claude-code-setup.sh # Claude Code setup script
+├── .gitignore              # Ignores sensitive files
+└── ...your project files
+```
 
-If automatic setup fails, manually copy the appropriate config file to:
+## 🔐 Environment Variables
 
-| Application | Configuration Path |
-|-------------|-------------------|
-| Cursor | `~/Library/Application Support/Cursor/User/mcp.json` |
-| Windsurf | `~/Library/Application Support/windsurf/mcp_settings.json` |
-| VS Code | `~/.continue/config.json` |
-| Claude Desktop | `~/Library/Application Support/Claude/claude_desktop_config.json` |
-| Warp | `~/.warp/mcp_config.json` |
-
-## ✅ Verification
-
-After installation, verify MCP servers are working:
+Some servers require API keys. The tool creates a `.env` template in `.mcp/`:
 
 ```bash
-# Check installed servers
-npm list -g --depth=0 | grep -E "(mcp|MCP)"
+# Copy template to project root and edit
+cp .mcp/.env .env
+vim .env  # Add your API keys
 
-# Test Playwright MCP
-npx @playwright/mcp --version
-
-# Check configurations
-ls -la ~/Library/Application\ Support/*/mcp*.json
+# Apply environment variables to configurations
+mcp-sync
 ```
+
+Example `.env`:
+```bash
+# GitHub integration
+GITHUB_TOKEN=ghp_your_token_here
+
+# n8n workflow automation
+N8N_API_KEY=your_key_here
+N8N_BASE_URL=https://your-n8n-instance.com
+
+# Webflow CMS
+WEBFLOW_API_TOKEN=your_token_here
+```
+
+## 👥 Team Collaboration
+
+1. **Initialize project with MCP servers:**
+   ```bash
+   mcp-init --bundle web-dev
+   git add .mcp/
+   git commit -m "Add MCP configuration"
+   ```
+
+2. **Team members clone and configure:**
+   ```bash
+   git clone your-repo
+   cd your-repo
+   cp .mcp/.env .env  # Copy and fill in their API keys
+   mcp-sync           # Apply to their IDEs
+   ```
+
+3. **The `.mcp/.env` is ignored by git** - each developer adds their own API keys
+
+## 🔧 Installation
+
+### Automatic Installation
+```bash
+chmod +x ~/Documents/mcp-tools/install-project-manager.sh
+~/Documents/mcp-tools/install-project-manager.sh
+```
+
+### Manual Installation
+```bash
+cd ~/Documents/mcp-tools/mcp-project-manager
+npm install
+npm run build
+npm link
+```
+
+## 📚 Examples & Documentation
+
+- **[Complete Examples](mcp-project-manager/EXAMPLES.md)** - Real-world usage patterns
+- **[Project Manager README](mcp-project-manager/README.md)** - Detailed documentation
+
+## 🔄 Migration from Global Setup
+
+Already have global MCP servers? Migrate easily:
+
+```bash
+cd your-existing-project
+mcp-migrate --from-global
+```
+
+This will:
+1. Detect your current global MCP configurations
+2. Create project-specific versions with the same servers
+3. Generate IDE configurations
+4. Create environment variable templates
 
 ## 🐛 Troubleshooting
 
 ### Common Issues
 
-1. **"Command not found" errors**
-   - Ensure Node.js and npm are installed
-   - Check npm prefix: `npm config get prefix`
-
-2. **Permission errors**
-   - Never use `sudo` with npm global installs
-   - Check npm directory ownership
-
-3. **Application config not found**
-   - Open the application at least once before configuring
-   - Some apps create config directories on first launch
-
-4. **MCP servers not appearing in IDE**
-   - Restart the application after configuration
-   - Check the application's MCP/AI settings panel
-
-### Getting Help
-
-1. Check the troubleshooting section in `setup-mcp-clients.md`
-2. Verify Node.js version: `node --version` (should be 18+)
-3. Review application-specific MCP documentation
-
-## 🔄 Updates
-
-To update MCP servers to latest versions:
-
+**"Project not initialized" error**
 ```bash
-# Update all servers
-npm update -g @playwright/mcp @modelcontextprotocol/server-filesystem @modelcontextprotocol/server-github @modelcontextprotocol/server-sequential-thinking duckduckgo-mcp-server n8n-mcp ref-tools-mcp webflow-mcp-server
-
-# Or reinstall with latest
-npm install -g @playwright/mcp@latest
+mcp-init  # Run in your project directory first
 ```
 
-## 📚 Additional Resources
+**IDE not detecting servers**
+```bash
+mcp-sync  # Regenerate and sync configurations
+# Then restart your IDE
+```
 
-- [Model Context Protocol Documentation](https://modelcontextprotocol.io)
-- [Playwright MCP GitHub](https://github.com/microsoft/playwright-mcp)
-- [MCP Servers Repository](https://github.com/modelcontextprotocol/servers)
+**Environment variables not working**
+```bash
+cp .mcp/.env .env    # Copy template to project root
+vim .env             # Add your actual API keys
+mcp-sync             # Update configurations
+```
+
+**Claude Code servers not appearing**
+```bash
+# Ensure Claude Code CLI is installed
+npm install -g @anthropic-ai/claude-cli
+
+# Run the setup script
+./.mcp/claude-code-setup.sh
+```
+
+## 📋 Requirements
+
+- **Node.js 18+** and npm
+- **macOS** (paths configured for macOS)
+- One or more supported IDEs
 
 ## 📄 License
 
-Configuration files and scripts in this package are provided as-is for personal use.
+MIT License - see mcp-project-manager/LICENSE for details.
 
 ---
 
-**Created by**: MCP Tools Setup Script  
-**Last Updated**: 2025
+**🎯 Ready to get started?** Run the installation script and create your first project-specific MCP configuration!

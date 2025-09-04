@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+{{#servers}}
+    "{{name}}": {
+      "command": "npx",
+      "args": ["{{package}}@{{version}}"]{{#hasEnv}},
+      "env": {
+{{#requiredEnv}}
+        "{{.}}": "{{#../envVars}}{{#.}}{{.}}{{/.}}{{/../envVars}}"{{^@last}},{{/@last}}
+{{/requiredEnv}}
+      }{{/hasEnv}}
+    }{{^@last}},{{/@last}}
+{{/servers}}
+  }
+}

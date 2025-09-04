@@ -1,0 +1,14 @@
+#!/bin/bash
+# Claude Code MCP Configuration
+# Run this script to configure MCP servers for this project
+
+{{#servers}}
+claude mcp add --scope user {{name}} npx {{package}}@{{version}}{{#hasEnv}}{{#requiredEnv}} -e {{.}}="{{#../envVars}}{{#.}}{{.}}{{/.}}{{/../envVars}}"{{/requiredEnv}}{{/hasEnv}}
+{{/servers}}
+
+echo "✅ Claude Code MCP servers configured successfully!"
+echo ""
+echo "To remove servers:"
+{{#servers}}
+echo "claude mcp remove {{name}}"
+{{/servers}}
